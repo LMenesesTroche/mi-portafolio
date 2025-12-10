@@ -276,12 +276,24 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <motion.a
       href={project.link}
-      className="block p-6 rounded-2xl bg-gradient-to-b from-slate-800 to-neutral-900 shadow-lg ring-1 ring-white/5 hover:scale-[1.02] transition-transform z-100"
+      className="block p-6 rounded-2xl bg-gradient-to-b from-slate-800 to-neutral-900 shadow-lg 
+           ring-1 ring-white/5 
+           
+           hover:scale-[1.02] 
+           
+           // CLASES MODIFICADAS:
+           // 1. Cambiamos el color del anillo a índigo fuerte (morado).
+           hover:ring-indigo-500 
+           // 2. Añadimos una sombra 2XL y le damos el color índigo con opacidad para el 'glow'.
+           hover:shadow-2xl hover:shadow-indigo-500/30 
+           
+           transition-all duration-300 z-100"
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
       <div className="flex items-start justify-between gap-4">
+        {/* ... (Contenido del proyecto) ... */}
         <div>
           <h4 className="text-white font-semibold">{project.title}</h4>
           <p className="text-slate-400 text-sm mt-2">{project.description}</p>
@@ -293,7 +305,6 @@ function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
         </div>
-
         <div className="text-slate-400 text-xs">Ver →</div>
       </div>
     </motion.a>
