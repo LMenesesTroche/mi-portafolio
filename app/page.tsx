@@ -124,8 +124,8 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-3 max-w-xs z-10">
-              <Metric label="Experiencia" value="5 años" />
+            <div className="mt-8 grid grid-cols-3 gap-3 max-w-s z-10">
+              <Metric label="Experiencia" value="1+ años" />
               <Metric label="Stack" value="Next + TS" />
               <Metric label="Disponibilidad" value="Inmediata" />
             </div>
@@ -178,21 +178,26 @@ export default function Home() {
               "Zustand",
               "Framer Motion",
               "Testing (Jest, RTL)",
-            ].map((s) => (
-              <div
+            ].map((s, i) => (
+              <motion.div
                 key={s}
-                className="p-4 bg-white/3 rounded-lg backdrop-blur-sm ring-1 ring-white/5"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.0001 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
+                className="p-4 bg-white/3 rounded-lg backdrop-blur-sm ring-1 ring-white/5 cursor-pointer"
               >
                 <div className="text-sm font-medium">{s}</div>
                 <div className="text-xs text-slate-400 mt-2">
                   Experiencia práctica, producción y optimización.
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <section id="projects" className="mt-14 z-1000">
+        <section id="projects" className="mt-14 z-10">
           <h3 className="text-2xl font-semibold">Proyectos destacados</h3>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((p) => (
