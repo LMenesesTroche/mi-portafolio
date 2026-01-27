@@ -1,17 +1,6 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-
-// This file is a full single-file Next/React + TypeScript page component you can drop into
-// `app/page.tsx` (Next 13+) or `pages/index.tsx` (rename to .tsx) and it will work with
-// Tailwind CSS and Framer Motion installed.
-
-// How to use:
-// 1. Ensure Tailwind CSS and Framer Motion are installed and configured in your Next project.
-//    npm i framer-motion
-// 2. Place this file at `app/page.tsx` or `pages/index.tsx`.
-// 3. Replace placeholder project links/descriptions with your real ones.
-// 4. Optionally install react-icons for icons (or replace with your preferred icons).
 
 type Project = {
   id: string;
@@ -19,36 +8,218 @@ type Project = {
   description: string;
   tags: string[];
   link?: string;
+  image: string;
 };
 
-const projects: Project[] = [
-  {
-    id: "1",
-    title: "Hiper UI — Design System (Next + Tailwind)",
-    description:
-      "Sistema de diseño escalable con tokens, componentes accesibles y documentación interactiva.",
-    tags: ["Next.js", "TypeScript", "Tailwind", "Storybook"],
-    link: "#",
+// Traducciones para ambos idiomas
+const translations = {
+  es: {
+    header: {
+      projects: "Proyectos",
+      skills: "Habilidades",
+      contact: "Contacto",
+      downloadCV: "Descargar CV",
+      language: "EN",
+    },
+    intro: {
+      hi: "Hola, soy",
+      name: "Lucas Meneses",
+      role: "Frontend engineer con 1+ años construyendo interfaces rápidas, accesibles y escalables con Next.js, TypeScript y Tailwind. Me encanta convertir ideas complejas en experiencias simples y memorables.",
+      viewProjects: "Ver Proyectos",
+      contact: "Contactar",
+      metrics: {
+        experience: "Experiencia",
+        experienceValue: "1+ años",
+        stack: "Stack",
+        stackValue: "Next + TS",
+        availability: "Disponibilidad",
+        availabilityValue: "Inmediata",
+      },
+      lastProject: {
+        title: "Último proyecto",
+        projectName: "Gastro POS",
+        description:
+          "Desarrollé la parte frontend para web, escritorio y mobile, con énfasis en Electron y web usando Next.js, Tailwind y Zustand.",
+        techStack: "Next.js · TypeScript · Tailwind · Zustand · Electron",
+      },
+    },
+    skills: {
+      title: "Habilidades",
+      description:
+        "Tech stack y herramientas donde tengo experiencia comprobada.",
+    },
+    extra: {
+      uno: "Experiencia práctica, producción y optimización.",
+    },
+    projects: {
+      title: "Proyectos destacados",
+    },
+    contact: {
+      title: "¿Hablamos?",
+      description:
+        "Buscas un front-end que entregue rendimiento y estética — soy tu persona.",
+      placeholderEmail: "tu@email.com",
+      send: "Enviar",
+    },
+    footer: "© {year} Lucas Meneses — Frontend Engineer",
   },
-  {
-    id: "2",
-    title: "Dash Analytics — Dashboard en tiempo real",
-    description:
-      "Dashboard con WebSockets, visualizaciones y rendimiento optimizado para millones de points.",
-    tags: ["React", "Redux", "D3", "Next.js"],
-    link: "#",
+  en: {
+    header: {
+      projects: "Projects",
+      skills: "Skills",
+      contact: "Contact",
+      downloadCV: "Download CV",
+      language: "ES",
+    },
+    intro: {
+      hi: "Hi, I'm",
+      name: "Lucas Meneses",
+      role: "Frontend engineer with 1+ years building fast, accessible, scalable interfaces using Next.js, TypeScript, and Tailwind. I love turning complex ideas into simple, memorable experiences.",
+      viewProjects: "View Projects",
+      contact: "Contact",
+      metrics: {
+        experience: "Experience",
+        experienceValue: "1+ years",
+        stack: "Stack",
+        stackValue: "Next + TS",
+        availability: "Availability",
+        availabilityValue: "Immediate",
+      },
+      lastProject: {
+        title: "Last Project",
+        projectName: "Gastro POS",
+        description:
+          "Developed frontend for web, desktop, and mobile, focusing mainly on Electron and web using Next.js, Tailwind, and Zustand.",
+        techStack: "Next.js · TypeScript · Tailwind · Zustand · Electron",
+      },
+    },
+    extra: {
+      uno: "Practical experience, production and optimization.",
+    },
+    skills: {
+      title: "Skills",
+      description: "Tech stack and tools with proven experience.",
+    },
+    projects: {
+      title: "Featured Projects",
+    },
+    contact: {
+      title: "Let's talk?",
+      description:
+        "Looking for a front-end that delivers performance and aesthetics — I'm your person.",
+      placeholderEmail: "your@email.com",
+      send: "Send",
+    },
+    footer: "© {year} Lucas Meneses — Frontend Engineer",
   },
-  {
-    id: "3",
-    title: "Storefront — E-commerce PWA",
-    description:
-      "PWA rápida, carrito optimizado, SSR para SEO y A/B testing con experimentos en Edge.",
-    tags: ["Next.js", "Zustand", "Vercel"],
-    link: "#",
-  },
-];
+};
 
 export default function Home() {
+  // Estado para idioma, por defecto español
+  const [language, setLanguage] = useState<"es" | "en">("es");
+
+  // Extraer textos actuales según idioma
+  const t = translations[language];
+
+  // Función para alternar idioma
+  function toggleLanguage() {
+    setLanguage(language === "es" ? "en" : "es");
+  }
+
+  // Proyectos estáticos con traducción para título y descripción
+  const projects: Project[] = [
+    {
+      id: "1",
+      title:
+        language === "es"
+          ? "Gastro POS — Sistema de punto de venta"
+          : "Gastro POS — Point of Sale System",
+      description:
+        language === "es"
+          ? "Frontend para web, escritorio y móvil, enfocado en Electron y web con Next.js, Tailwind y Zustand."
+          : "Frontend for web, desktop, and mobile, focusing on Electron and web using Next.js, Tailwind, and Zustand.",
+      tags: ["Next.js", "TypeScript", "Tailwind", "Zustand", "Electron"],
+      link: "https://www.gastro-pos.com",
+      image:
+        "https://res.cloudinary.com/decbwosgj/image/upload/v1768234296/Screenshot_from_2026-01-12_12-10-19_nyjveb.png", // Puedes cambiar esta imagen por otra representativa
+    },
+    {
+      id: "2",
+      title:
+        language === "es"
+          ? "Quality Bill — Facturador Electrónico"
+          : "Quality Bill — Electronic Invoicing",
+      description:
+        language === "es"
+          ? "Formularios complejos y dinámicos, PDFs personalizados con microservicios para gestión y previsualización."
+          : "Complex dynamic forms, custom PDFs with microservices for management and preview.",
+      tags: ["React", "TypeScript", "Microservices", "PDF Generation"],
+      link: "https://facturando.qualitysoftservices.com/",
+      image:
+        "https://res.cloudinary.com/decbwosgj/image/upload/v1737644960/Captura_de_pantalla_de_2025-01-23_11-07-20_ipnyej.png", // Usa un logo o screenshot representativo
+    },
+    {
+      id: "3",
+      title:
+        language === "es"
+          ? "Gestión de Personal — Nóminas y Reclutamiento"
+          : "Personnel Management — Payroll and Recruitment",
+      description:
+        language === "es"
+          ? "App para gestión de personal con nóminas, búsqueda y administración usando React Native."
+          : "App for personnel management with payroll, search, and administration using React Native.",
+      tags: ["React Native", "TypeScript", "Mobile"],
+      link: "https://qualitysoftservices.com/",
+      image:
+        "https://res.cloudinary.com/decbwosgj/image/upload/v1768234578/Screenshot_from_2026-01-12_12-16-06_x3yf8l.png", // Cambia por imagen representativa si tienes
+    },
+  ];
+
+  function ProjectCard({ project }: { project: Project }) {
+    return (
+      <motion.a
+        href={project.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block rounded-2xl bg-gradient-to-b from-slate-800 to-neutral-900 shadow-lg 
+           ring-1 ring-white/5 
+           hover:scale-[1.02] 
+           hover:ring-indigo-500 
+           hover:shadow-2xl hover:shadow-indigo-500/30 
+           transition-all duration-300 z-100 overflow-hidden"
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <div className="h-40 w-full relative">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="object-cover w-full h-full rounded-t-2xl"
+            loading="lazy"
+          />
+        </div>
+        <div className="p-6 flex flex-col justify-between gap-4">
+          <div>
+            <h4 className="text-white font-semibold">{project.title}</h4>
+            <p className="text-slate-400 text-sm mt-2">{project.description}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.tags.map((t) => (
+                <span
+                  key={t}
+                  className="text-xs px-2 py-1 rounded-md bg-white/3"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="text-slate-400 text-xs self-end">Ver →</div>
+        </div>
+      </motion.a>
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-gray-900 via-neutral-900 to-black text-slate-100 antialiased">
       {/* <CursorTrail /> */}
@@ -68,23 +239,32 @@ export default function Home() {
 
         <nav className="hidden md:flex gap-6 items-center text-sm text-slate-300 z-20">
           <a href="#projects" className="hover:text-white transition">
-            Proyectos
+            {t.header.projects}
           </a>
           <a href="#skills" className="hover:text-white transition">
-            Habilidades
+            {t.header.skills}
           </a>
           <a href="#contact" className="hover:text-white transition">
-            Contacto
+            {t.header.contact}
           </a>
           <a
             href="/Lucas_Meneses_CV.pdf"
             className="px-4 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-pink-600 shadow-md text-white text-sm"
           >
-            Descargar CV
+            {t.header.downloadCV}
           </a>
+
+          {/* Botón para cambiar idioma */}
+          <button
+            onClick={toggleLanguage}
+            className="ml-4 px-3 py-1 rounded-md border border-slate-500 text-sm text-slate-300 hover:bg-slate-700 transition"
+            aria-label="Cambiar idioma"
+          >
+            {t.header.language}
+          </button>
         </nav>
 
-        <MobileMenu />
+        <MobileMenu language={language} />
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-16 z-10">
@@ -96,16 +276,13 @@ export default function Home() {
             className="z-10"
           >
             <p className="text-sm uppercase tracking-widest text-indigo-400">
-              Hola, soy
+              {t.intro.hi}
             </p>
             <h2 className="relative z-20 text-4xl md:text-5xl font-extrabold leading-tight mt-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 ">
-              Lucas Meneses
+              {t.intro.name}
             </h2>
             <p className="mt-4 text-slate-300 leading-relaxed">
-              Frontend engineer con 5 años construyendo interfaces rápidas,
-              accesibles y escalables con Next.js, TypeScript y Tailwind. Me
-              encanta convertir ideas complejas en experiencias simples y
-              memorables.
+              {t.intro.role}
             </p>
 
             <div className="mt-6 flex gap-4">
@@ -113,21 +290,30 @@ export default function Home() {
                 href="#projects"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 shadow-lg text-white font-medium"
               >
-                Ver Proyectos
+                {t.intro.viewProjects}
               </a>
 
               <a
                 href="#contact"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg ring-1 ring-white/10 text-sm text-slate-200 hover:bg-white/5 z-10"
               >
-                Contactar
+                {t.intro.contact}
               </a>
             </div>
 
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-s z-10">
-              <Metric label="Experiencia" value="1+ años" />
-              <Metric label="Stack" value="Next + TS" />
-              <Metric label="Disponibilidad" value="Inmediata" />
+              <Metric
+                label={t.intro.metrics.experience}
+                value={t.intro.metrics.experienceValue}
+              />
+              <Metric
+                label={t.intro.metrics.stack}
+                value={t.intro.metrics.stackValue}
+              />
+              <Metric
+                label={t.intro.metrics.availability}
+                value={t.intro.metrics.availabilityValue}
+              />
             </div>
           </motion.div>
 
@@ -137,15 +323,17 @@ export default function Home() {
             transition={{ delay: 0.2 }}
             className="flex justify-center md:justify-end z-10"
           >
-            <div className="w-80 h-80 rounded-2xl p-1 bg-gradient-to-br from-indigo-500 to-pink-500 shadow-2xl">
+            <div className="w-80 h-80 rounded-2xl p-1 bg-gradient-to-br from-indigo-500 to-pink-600 shadow-2xl">
               <div className="h-full rounded-xl bg-gradient-to-b from-slate-800 to-neutral-900 p-6 flex flex-col justify-between">
                 <div>
-                  <p className="text-slate-300 text-sm">Último proyecto</p>
+                  <p className="text-slate-300 text-sm">
+                    {t.intro.lastProject.title}
+                  </p>
                   <h3 className="text-white font-semibold mt-2">
-                    Storefront PWA
+                    {t.intro.lastProject.projectName}
                   </h3>
                   <p className="text-slate-400 mt-3 text-sm">
-                    SSR, caching inteligente y rendimiento superior.
+                    {t.intro.lastProject.description}
                   </p>
                 </div>
 
@@ -154,7 +342,7 @@ export default function Home() {
                     🔧
                   </div>
                   <div className="text-xs text-slate-400">
-                    Next.js · TypeScript · Tailwind · Vercel
+                    {t.intro.lastProject.techStack}
                   </div>
                 </div>
               </div>
@@ -163,10 +351,8 @@ export default function Home() {
         </section>
 
         <section id="skills" className="mt-20">
-          <h3 className="text-2xl font-semibold">Habilidades</h3>
-          <p className="text-slate-400 mt-2">
-            Tech stack y herramientas donde tengo experiencia comprobada.
-          </p>
+          <h3 className="text-2xl font-semibold">{t.skills.title}</h3>
+          <p className="text-slate-400 mt-2">{t.skills.description}</p>
 
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -177,7 +363,7 @@ export default function Home() {
               "Redux",
               "Zustand",
               "Framer Motion",
-              "Testing (Jest, RTL)",
+              "Electron",
             ].map((s, i) => (
               <motion.div
                 key={s}
@@ -189,16 +375,14 @@ export default function Home() {
                 className="p-4 bg-white/3 rounded-lg backdrop-blur-sm ring-1 ring-white/5 cursor-pointer"
               >
                 <div className="text-sm font-medium">{s}</div>
-                <div className="text-xs text-slate-400 mt-2">
-                  Experiencia práctica, producción y optimización.
-                </div>
+                <div className="text-xs text-slate-400 mt-2">{t.extra.uno}</div>
               </motion.div>
             ))}
           </div>
         </section>
 
         <section id="projects" className="mt-14 z-10">
-          <h3 className="text-2xl font-semibold">Proyectos destacados</h3>
+          <h3 className="text-2xl font-semibold">{t.projects.title}</h3>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((p) => (
               <ProjectCard key={p.id} project={p} />
@@ -212,11 +396,8 @@ export default function Home() {
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl font-semibold">¿Hablamos?</h3>
-              <p className="text-slate-400 mt-2">
-                Buscas un front-end que entregue rendimiento y estética — soy tu
-                persona.
-              </p>
+              <h3 className="text-2xl font-semibold">{t.contact.title}</h3>
+              <p className="text-slate-400 mt-2">{t.contact.description}</p>
             </div>
 
             <form
@@ -225,15 +406,15 @@ export default function Home() {
             >
               <div className="flex gap-3">
                 <input
-                  aria-label="Tu email"
-                  placeholder="tu@email.com"
+                  aria-label={t.contact.placeholderEmail}
+                  placeholder={t.contact.placeholderEmail}
                   className="px-4 py-3 rounded-lg bg-black/20 ring-1 ring-white/5 text-sm"
                 />
                 <button
                   type="submit"
                   className="px-4 py-3 rounded-lg bg-indigo-600 text-white font-medium"
                 >
-                  Enviar
+                  {t.contact.send}
                 </button>
               </div>
             </form>
@@ -241,7 +422,7 @@ export default function Home() {
         </section>
 
         <footer className="mt-12 text-center text-slate-500 text-sm">
-          © {new Date().getFullYear()} Lucas Meneses — Frontend Engineer
+          {t.footer.replace("{year}", String(new Date().getFullYear()))}
         </footer>
       </main>
     </div>
@@ -257,15 +438,16 @@ function Metric({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MobileMenu() {
+function MobileMenu({ language }: { language: "es" | "en" }) {
+  const t = translations[language].header;
   return (
     <div className="md:hidden">
       <details className="text-slate-300">
         <summary className="cursor-pointer">Menu</summary>
         <div className="mt-2 flex flex-col gap-2">
-          <a href="#projects">Proyectos</a>
-          <a href="#skills">Habilidades</a>
-          <a href="#contact">Contacto</a>
+          <a href="#projects">{t.projects}</a>
+          <a href="#skills">{t.skills}</a>
+          <a href="#contact">{t.contact}</a>
         </div>
       </details>
     </div>
@@ -278,22 +460,15 @@ function ProjectCard({ project }: { project: Project }) {
       href={project.link}
       className="block p-6 rounded-2xl bg-gradient-to-b from-slate-800 to-neutral-900 shadow-lg 
            ring-1 ring-white/5 
-           
            hover:scale-[1.02] 
-           
-           // CLASES MODIFICADAS:
-           // 1. Cambiamos el color del anillo a índigo fuerte (morado).
            hover:ring-indigo-500 
-           // 2. Añadimos una sombra 2XL y le damos el color índigo con opacidad para el 'glow'.
            hover:shadow-2xl hover:shadow-indigo-500/30 
-           
            transition-all duration-300 z-100"
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
       <div className="flex items-start justify-between gap-4">
-        {/* ... (Contenido del proyecto) ... */}
         <div>
           <h4 className="text-white font-semibold">{project.title}</h4>
           <p className="text-slate-400 text-sm mt-2">{project.description}</p>
@@ -309,107 +484,4 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
     </motion.a>
   );
-}
-
-// CursorTrail: a subtle canvas-based mouse trail that leaves a soft glow and dissipates.
-function CursorTrail() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = document.createElement("canvas");
-    canvasRef.current = canvas;
-    canvas.style.position = "fixed";
-    canvas.style.top = "0";
-    canvas.style.left = "0";
-    canvas.style.pointerEvents = "none";
-    canvas.style.zIndex = "0";
-    document.body.appendChild(canvas);
-
-    const ctx = canvas.getContext("2d")!;
-
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const particles: {
-      x: number;
-      y: number;
-      life: number;
-      vx: number;
-      vy: number;
-      size: number;
-    }[] = [];
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener("resize", resize);
-
-    function spawn(x: number, y: number) {
-      for (let i = 0; i < 6; i++) {
-        particles.push({
-          x,
-          y,
-          life: 60 + Math.random() * 40,
-          vx: (Math.random() - 0.5) * 1.2,
-          vy: (Math.random() - 0.5) * 1.2,
-          size: 6 + Math.random() * 6,
-        });
-      }
-    }
-
-    function onMove(e: MouseEvent) {
-      spawn(e.clientX, e.clientY);
-    }
-
-    window.addEventListener("pointermove", onMove);
-
-    let raf = 0;
-    function frame() {
-      raf = requestAnimationFrame(frame);
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= 0.98;
-        p.vy *= 0.98;
-        p.life -= 1;
-        p.size *= 0.995;
-
-        const alpha = Math.max(0, p.life / 100);
-        const grad = ctx.createRadialGradient(
-          p.x,
-          p.y,
-          0,
-          p.x,
-          p.y,
-          p.size * 3
-        );
-        grad.addColorStop(0, `rgba(99,102,241,${alpha * 0.9})`); // indigo
-        grad.addColorStop(0.6, `rgba(236,72,153,${alpha * 0.45})`); // pink
-        grad.addColorStop(1, `rgba(0,0,0,0)`);
-
-        ctx.fillStyle = grad as unknown as string;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (p.life <= 0 || p.size < 0.5) particles.splice(i, 1);
-      }
-    }
-
-    frame();
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", onMove);
-      if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
-    };
-  }, []);
-
-  return null;
 }
