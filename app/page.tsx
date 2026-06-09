@@ -18,6 +18,8 @@ import {
   BadgeCheck,
 } from "lucide-react";
 
+//NO ESTA CENTRDO LOS NUMEROS DE LA DERECHA ESO DE PROYECTO BLA BLA HAY QUE CENTRARLO A LA DERECHA
+
 const navLinks = ["Home", "About", "Projects", "Services", "Contact"];
 
 export default function HomePage() {
